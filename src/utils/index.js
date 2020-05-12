@@ -403,7 +403,7 @@ export function arryIdSum(arr, id = 'id', prop = 'value') {
   arr.forEach(el => {
     const result = newArr.findIndex(ol => { return el[id] === ol[id] })
     if (result !== -1) {
-      newArr[result][prop] = parseInt(newArr[result][prop]) + parseInt(el[prop])
+      newArr[result][prop] = parseFloat(newArr[result][prop]) + parseFloat(el[prop])
     } else {
       newArr.push(el)
     }

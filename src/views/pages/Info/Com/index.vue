@@ -135,6 +135,14 @@ export default {
           label: '员工姓名'
         },
         {
+          prop: '*所属公司',
+          label: '*所属公司'
+        },
+        {
+          prop: '一级部门',
+          label: '一级部门'
+        },
+        {
           prop: '二级部门',
           label: '二级部门'
         },
@@ -149,10 +157,6 @@ export default {
         {
           prop: '部门编码',
           label: '部门编码'
-        },
-        {
-          prop: '费用属性',
-          label: '费用属性'
         },
         {
           prop: '工作城市',
@@ -175,10 +179,6 @@ export default {
           label: '三级成本中心'
         },
         {
-          prop: '一级成本中心',
-          label: '一级成本中心'
-        },
-        {
           prop: '成本中心编码',
           label: '成本中心编码'
         },
@@ -189,18 +189,6 @@ export default {
         {
           prop: '项目编码',
           label: '项目编码'
-        },
-        {
-          prop: '报销审批人',
-          label: '报销审批人'
-        },
-        {
-          prop: '提供BP',
-          label: '提供BP'
-        },
-        {
-          prop: '备注',
-          label: '备注'
         },
         {
           prop: '1月人力分布',
@@ -221,10 +209,10 @@ export default {
       /** *** 表格数据对比 *** **/
       mc: [],
       jiaZai: false,
-      type: '',
-      prop: '',
-      ygtype: '',
-      ygprop: '',
+      type: '下单人员工ID',
+      prop: '企业实付金额',
+      ygtype: '员工编号',
+      ygprop: '1月人力分布',
       ysRow: '-',
       ysSum: 0,
       ysDsRow: '-',
@@ -316,18 +304,18 @@ export default {
 
       if (body[1].hasOwnProperty(this.prop) && body[1].hasOwnProperty(this.type)) {
         body.forEach(n => {
-          sum1 = parseInt(n[this.prop]) + sum1
+          sum1 = parseFloat(n[this.prop]) + sum1
         })
-        this.ysSum = sum1
+        this.ysSum = sum1.toFixed(2)
 
         this.mc = arryIdSum(body, this.type, this.prop)
         console.log(this.mc)
         let sum = 0
         this.mc.forEach(n => {
-          sum = sum + parseInt(n[this.prop])
+          sum = parseFloat(n[this.prop]) + sum
         })
         this.ysDsRow = this.mc.length
-        this.ysDsSum = sum
+        this.ysDsSum = sum.toFixed(2)
 
         this.$nextTick(() => {
           this.jiaZai = false
@@ -356,6 +344,7 @@ export default {
           }
           const line = this.mc.find(e => n[this.ygtype] === e[this.type])
           if (line) {
+            console.log(ptwop(n[this.ygprop]))
             n['支付'] = ptwop(n[this.ygprop]) * line[this.prop]
           } else {
             n['支付'] = 0
